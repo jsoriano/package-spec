@@ -9,8 +9,19 @@ import (
 	"strings"
 )
 
+// ValidationError is the interface that every validation error must implement.
+type ValidationError interface {
+	error
+
+	// Level is the validation level, the higher the pickier. 0 is mandatory.
+	Level() int
+
+	// Code is a unique identifier of this error.
+	Code() int
+}
+
 // ValidationErrors is an error that contains an iterable collection of validation error messages.
-type ValidationErrors []error
+type ValidationErrors []ValidationError
 
 func (ve ValidationErrors) Error() string {
 	if len(ve) == 0 {
